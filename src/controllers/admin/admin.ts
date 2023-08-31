@@ -51,7 +51,7 @@ export const addFile = (req: Request, res: Response) => {
   if (!req.files || !req.files.file) {
     return res.status(400).send("No files were uploaded");
   }
-  const { name, description, category } = req.body; 
+  const { name, description, category } = req.body;
   let uploadedFile = req.files.file as UploadedFile;
   let filePath = "./public" + "/uploads/" + uploadedFile.name;
 
@@ -64,15 +64,13 @@ export const addFile = (req: Request, res: Response) => {
     [name, description, category, uploadedFile.name],
     (error, result) => {
       if (error) throw error;
-      if (result.rows.length > 0) {
-        console.log(result.rows);
-      }
+      res.redirect("/admin");
     }
   );
 };
-export  const add = (req: Request, res: Response)=>{
-  res.render('./add_post')
-}
+export const add = (req: Request, res: Response) => {
+  res.render("./add_post");
+};
 
 export const updateFile = (req: Request, res: Response) => {
   const id = req.params.id;

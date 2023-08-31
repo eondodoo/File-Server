@@ -1,5 +1,6 @@
 import express from 'express'
 import fileUpload from 'express-fileupload'
+import expressLayouts from "express-ejs-layouts";
 import * as dotenv from 'dotenv'
 import adminRoutes from './router/admin/admin'
 import mainRoutes from './router/main/main'
@@ -14,6 +15,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
+app.use(expressLayouts)
+app.set('layout', './layouts/main')
 
 app.use(fileUpload()) 
 

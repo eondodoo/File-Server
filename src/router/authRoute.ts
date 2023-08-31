@@ -12,6 +12,12 @@ import { authenticateToken } from '../middleware/authorization';
 const router = Router();
 
 router.post('/register', register)
+router.get('/register', (req, res)=>{
+  res.render('register')
+})
+router.get('/login', (req, res)=>{
+  res.render('login')
+})
 router.post('/login', login)
 router.delete('/logout',authenticateToken, logout)
 router.post('/forgotpassword', forgotPassword)

@@ -56,7 +56,6 @@ export const register = (req: Request, res: Response) => {
       }
     });
   }
-  // const token = user.getSignedJwtToken
 };
 
 export const login = (req: Request, res: Response) => {

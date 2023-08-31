@@ -22,6 +22,15 @@ CREATE TABLE items(
 ALTER TABLE users
 ADD CHECK(role IN ('admin', 'user'));
 
+ALTER TABLE items
+RENAME COLUMN download TO downloads;
+
+UPDATE items
+SET downloads = 0 WHERE id = 1;
+
+ALTER TABLE items
+ALTER COLUMN downloads SET NOT NULL;
+
 DELETE FROM users
 WHERE id = 1;
 

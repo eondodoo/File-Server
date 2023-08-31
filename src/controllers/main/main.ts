@@ -2,14 +2,16 @@ import { Request, Response } from "express";
 import pool from "../../database/db";
 import query from "../../database/query";
 import { existsSync } from "fs";
+import { download } from "../../middleware/downloadCount";
 
 export const getAllFiles = (req: Request, res: Response) => {
   pool.query(query.getAllFiles, (error, result) => {
     if (error) throw error;
     if (result.rows.length > 0) {
       console.log(result.rows);
+      const data = result.rows
       // res.send(result.rows);
-      res.render('home')
+      res.render('home', {data})
     } 
     else {
       res.send("No files uploaded");
@@ -23,8 +25,8 @@ export const getFileById = (req: Request, res: Response) => {
     if (error) throw error;
     if (result.rows.length > 0) {
       console.log(result.rows);
-      res.send(result.rows);
-      // return res.render('home')
+      const data = result.rows;
+      return res.render('detail', {data})
     }
     // return res.status(201).json(result.rows)
   });
@@ -40,6 +42,7 @@ export const downloadFile = (req: Request, res: Response) => {
         "./public" + "/uploads/" + "kevin-ku-w7ZyuGYNpRQ-unsplash.jpg";
       if (existsSync(filePath)) {
         res.download(filePath, fileName);
+        download(id)
       } else {
         res.send("No file found");
       }
