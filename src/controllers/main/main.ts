@@ -8,10 +8,12 @@ export const getAllFiles = (req: Request, res: Response) => {
   pool.query(query.getAllFiles, (error, result) => {
     if (error) throw error;
     if (result.rows.length > 0) {
-      console.log(result.rows);
+
       const data = result.rows
+      console.log(req.user);
+
       // res.send(result.rows);
-      res.render('home', {data})
+      res.render('home', {data, name: req.user})
     } 
     else {
       res.send("No files uploaded");
@@ -24,9 +26,8 @@ export const getFileById = (req: Request, res: Response) => {
   pool.query(query.getFileById, [id], (error, result) => {
     if (error) throw error;
     if (result.rows.length > 0) {
-      console.log(result.rows);
       const data = result.rows;
-      return res.render('detail', {data})
+      return res.render('detail')
     }
     // return res.status(201).json(result.rows)
   });

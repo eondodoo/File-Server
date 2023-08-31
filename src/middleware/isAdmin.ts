@@ -8,11 +8,10 @@ export const isAdmin = (username: string) => {
       if (error) throw error;
       if (result.rows.length > 0) {
         const user = result.rows[0];
-        console.log();
         if (user.role == "admin") {
           next();
         } else {
-          res.status(403).json({ message: "Access Denied" });
+          return res.status(403).json({ message: "Access Denied" });
         }
       }
     });

@@ -8,6 +8,9 @@ import jwtTokens from "../utils/jwt-helper";
 import env from "../env";
 import sendEmail from "../utils/sendEmail";
 import crypto from 'node:crypto'
+import passport from "passport";
+
+
 
 
 export const register = (req: Request, res: Response) => {
@@ -28,14 +31,14 @@ export const register = (req: Request, res: Response) => {
     role = "user";
   }
   if (errors.length > 0) {
-    res.status(401).send(errors);
+    res.render('register', {errors})
   } else {
     let hashedPassword = bcrypt.hashSync(password, 10);
     pool.query(query.checkEmail, [email], (error, result) => {
       if (error) throw error;
       if (result.rows.length > 0) {
         // errors.push({ message: "Email already registered" });
-        res.json({message: "Email already registered"})
+        errors.push({message: "Email already registered"})
       } else {
         pool.query(query.checkUsername, [username], (error, result) => {
           if (error) throw error;
@@ -47,8 +50,8 @@ export const register = (req: Request, res: Response) => {
               [username, email, hashedPassword, role],
               (error, result) => {
                 if (error) throw error;
-                console.log("Registration Successful");
-                res.redirect("login");
+                req.flash("success_msg", "Registration Successful")
+                res.redirect("/users/login");
               }
             );
           }
@@ -58,59 +61,62 @@ export const register = (req: Request, res: Response) => {
   }
 };
 
-export const login = (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  let user;
-  let errors = [];
+// export const login = (req: Request, res: Response) => {
+//   const { email, password } = req.body;
+//   let user;
+//   let errors = [];
 
-  if (!email || !password) {
-    errors.push({ message: "Enter email or password" });
-  }
-  if (errors.length > 0) {
-    res.status(401).send(errors);
-  } else {
-    pool.query(query.checkEmail, [email], (error, result) => {
-      if (error) throw error;
-      if (result.rows.length > 0) {
-        user = result.rows[0];
-        if (!user) {
-          errors.push({ message: "No User found" });
-          return res.status(401).json({message: 'No user found'})
-        }
-        const isMatched = bcrypt.compareSync(password, user.password);
-        if (!isMatched) {
-          errors.push({ message: "No User found" });
-          return res.status(401).json({message: 'Wrong Credentials'})
-        } 
-        if(user.role == 'admin'){
-          let tokens = jwtTokens(user.username, user.email, user.password, user.role);
-          res.cookie("refresh_token", tokens.refreshToken, { httpOnly: true });
-        return res.json(tokens);
+//   if (!email || !password) {
+//     errors.push({ message: "Enter email or password" });
+//   }
+//   if (errors.length > 0) {
+//     res.status(401).send(errors);
+//   } else {
+//     pool.query(query.checkEmail, [email], (error, result) => {
+//       if (error) throw error;
+//       if (result.rows.length > 0) {
+//         user = result.rows[0];
+//         if (!user) {
+//           errors.push({ message: "No User found" });
+//           return res.status(401).json({message: 'No user found'})
+//         }
+//         const isMatched = bcrypt.compareSync(password, user.password);
+//         if (!isMatched) {
+//           errors.push({ message: "No User found" });
+//           return res.status(401).json({message: 'Wrong Credentials'})
+//         } 
+//         // if(user.role == 'admin'){
+//         //   let tokens = jwtTokens(user.username, user.email, user.password, user.role);
+//         //   res.cookie("refresh_token", tokens.refreshToken, { httpOnly: true });
+//         // return res.redirect('dashboard');
 
-        }
-        let tokens = jwtTokens(user.username, user.email, user.password, user.role);
-        res.cookie("refresh_token", tokens.refreshToken, { httpOnly: true });
-        return res.json(tokens);
-      }
-    });
-  }
-};
+//         // }
+//         // let tokens = jwtTokens(user.username, user.email, user.password, user.role);
+//         // res.cookie("refresh_token", tokens.refreshToken, { httpOnly: true });
+//         // return res.redirect('../items');
+//         passport.serializeUser((user, done)=>{
+  
+//         })
+//       }
+//     });
+//   }
+// };
 
-export const refreshToken = (req: Request, res: Response) => {
-  try {
-    const refreshToken = req.cookies.refresh_token;
-    if (refreshToken == null)
-      return res.status(401).json({ error: "No fresh token" });
-    jwt.verify(refreshToken, env.REFRESH_SECRET_TOKEN, (error, user) => {
-      if (error) return res.status(403).json({ error: error.message });
-      let tokens = jwtTokens(user.username, user.email, user.password, user.role);
-      res.cookie("refresh_token", tokens.refreshToken, { httpOnly: true });
-      res.json(tokens);
-    });
-  } catch (error) {
-    res.status(401).json({ error: "Error occured" });
-  }
-};
+// export const refreshToken = (req: Request, res: Response) => {
+//   try {
+//     const refreshToken = req.cookies.refresh_token;
+//     if (refreshToken == null)
+//       return res.status(401).json({ error: "No fresh token" });
+//     jwt.verify(refreshToken, env.REFRESH_SECRET_TOKEN, (error, user) => {
+//       if (error) return res.status(403).json({ error: error.message });
+//       let tokens = jwtTokens(user.username, user.email, user.password, user.role);
+//       res.cookie("refresh_token", tokens.refreshToken, { httpOnly: true });
+//       res.json(tokens);
+//     });
+//   } catch (error) {
+//     res.status(401).json({ error: "Error occured" });
+//   }
+// };
 
 export const forgotPassword = (req: Request, res: Response) => {
   const { email } = req.body;
@@ -169,10 +175,7 @@ export const resetPassword = (req: Request, res: Response) => {
 };
 
 export const logout = (req: Request, res: Response) => {
-  try {
-    res.clearCookie("refresh_token");
-    return res.status(200).json({ message: "logout successful" });
-  } catch (error) {
-    res.status(401).json({ error });
-  }
+  req.logout()
+  req.flash('success_msg', "You have logged out")
+  res.redirect('/users/login')
 };

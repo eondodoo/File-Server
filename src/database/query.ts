@@ -11,7 +11,7 @@ const deleteFile = 'DELETE items WHERE id= $1';
 const checkEmail = 'SELECT * FROM users WHERE email= $1';
 const checkUsername = 'SELECT * FROM users WHERE username = $1';
 const addUser = 'INSERT INTO users (username, email, password, role) VALUES($1,$2,$3,$4) RETURNING *';
-
+const getUserByID = 'SELECT * FROM users WHERE id = $1'
 
  
 
@@ -25,5 +25,6 @@ export default {
     updateFile,
     deleteFile,
     searchFiles,
-    downloadCount
+    downloadCount,
+    getUserByID
 }
