@@ -1,0 +1,27 @@
+const getAllFiles = 'SELECT * FROM items';
+const getFileById = 'SELECT * FROM items WHERE id = $1';
+
+const searchFiles = "SELECT * FROM items WHERE name ILIKE $1";
+
+const addFile = 'INSERT INTO items (name, description, category, imgurl) VALUES($1,$2,$3,$4) RETURNING *';
+const updateFile = 'UPDATE items SET name = $1, description = $2, category = $3, imgurl = $4 WHERE id = $5 ';
+const deleteFile = 'DELETE items WHERE id= $1';
+
+const checkEmail = 'SELECT * FROM users WHERE email= $1';
+const checkUsername = 'SELECT * FROM users WHERE username = $1';
+const addUser = 'INSERT INTO users (username, email, password, role) VALUES($1,$2,$3,$4) RETURNING *';
+
+
+ 
+
+export default {
+    getAllFiles,
+    getFileById,
+    checkEmail,
+    checkUsername,
+    addUser,
+    addFile,
+    updateFile,
+    deleteFile,
+    searchFiles
+}
