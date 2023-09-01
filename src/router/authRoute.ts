@@ -7,27 +7,29 @@ import {
   logout,
   // refreshToken
 } from '../controllers/authController';
-import { authenticateToken } from '../middleware/authorization';
 import passport from 'passport';
-import { isAuthenticated } from '../middleware/isAuthenticated';
-// import { protect } from '../middlewares/auth';
+import { isAuthenticated, isNotAuthenticated } from '../middleware/isAuthenticated';
 const router = Router();
 
 router.post('/register',isAuthenticated, register)
 router.get('/register', (req, res)=>{
-  res.render('register')
+  const excludeNavbar = true
+  res.render('register', {excludeNavbar})
 })
 router.get('/login', (req, res)=>{
-  res.render('login')
+  const excludeNavbar = true
+  const isAuthenticated = req.isAuthenticated
+  res.render('login', {excludeNavbar})
 })
-router.post('/login', isAuthenticated, passport.authenticate('local',{
+
+router.post('/login',  passport.authenticate('local',{
   successRedirect: '/items',
   failureRedirect: '/users/login',
   failureFlash: true
 }), (req, res)=>{
-  console.log(req.user)
+  
 })
-router.get('/logout', logout)
+router.get('/logout', isNotAuthenticated, logout)
 router.post('/forgotpassword', forgotPassword)
 
 // router.delete('/refresh_token', refreshToken)

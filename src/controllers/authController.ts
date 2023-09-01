@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import pool from "../database/db";
 import query from "../database/query";
 import { QueryResult } from "pg";
@@ -174,8 +174,10 @@ export const resetPassword = (req: Request, res: Response) => {
   res.send("forgot password");
 };
 
-export const logout = (req: Request, res: Response) => {
-  req.logout()
+export const logout = (req: Request, res: Response, next: NextFunction) => {
+  req.logout(function(err){
+    if(err) return next()
+    res.redirect('/users/login')
+  })
   req.flash('success_msg', "You have logged out")
-  res.redirect('/users/login')
 };

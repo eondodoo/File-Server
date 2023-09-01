@@ -14,9 +14,10 @@ const getAllFiles = (req, res) => {
             throw error;
         if (result.rows.length > 0) {
             const data = result.rows;
-            console.log(req.user);
+            const isAuthenticated = req.isAuthenticated();
+            const excludeNavbar = false;
             // res.send(result.rows);
-            res.render('home', { data, name: req.user });
+            res.render('home', { data, name: req.user, isAuthenticated, excludeNavbar });
         }
         else {
             res.send("No files uploaded");
@@ -31,7 +32,9 @@ const getFileById = (req, res) => {
             throw error;
         if (result.rows.length > 0) {
             const data = result.rows;
-            return res.render('detail');
+            const isAuthenticated = req.isAuthenticated();
+            const excludeNavbar = false;
+            return res.render('detail', { data, isAuthenticated, excludeNavbar });
         }
         // return res.status(201).json(result.rows)
     });

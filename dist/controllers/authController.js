@@ -165,9 +165,12 @@ const resetPassword = (req, res) => {
     res.send("forgot password");
 };
 exports.resetPassword = resetPassword;
-const logout = (req, res) => {
-    req.logout();
+const logout = (req, res, next) => {
+    req.logout(function (err) {
+        if (err)
+            return next();
+        res.redirect('/users/login');
+    });
     req.flash('success_msg', "You have logged out");
-    res.redirect('/users/login');
 };
 exports.logout = logout;

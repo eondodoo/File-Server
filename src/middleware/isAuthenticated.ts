@@ -5,7 +5,7 @@ export const isAuthenticated=(req: Request, res: Response, next: NextFunction)=>
     if(req.isAuthenticated()){
         return res.redirect('/items')
     }
-    next()
+    next() 
 }
 
 export const isNotAuthenticated=(req: Request, res: Response, next: NextFunction)=>{
@@ -16,7 +16,7 @@ export const isNotAuthenticated=(req: Request, res: Response, next: NextFunction
     }
 }
 
-export const isAdmin=(req: Request, res: Response, next: NextFunction)=>{
+export const isAdmin=(req: Request, res: Response, next: NextFunction)=>{ 
     if(req.user== null){
-    }
+    } 
 }
