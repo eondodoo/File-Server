@@ -93,41 +93,41 @@ export const register = (req: Request, res: Response) => {
 //   }
 // };
 
-export const forgotPassword = (req: Request, res: Response) => {
-  const { email } = req.body;
-  let errors = [];
-  const user = pool.query(
-    query.checkEmail,
-    [email],
-    (error, result: QueryResult) => {
-      if (error) throw error;
-      if (result.rows.length > 0) {
-        const user = result.rows[0];
-        if (!user) {
-          errors.push({ message: "No User with email found" });
-          return res.send("No user with email found ");
-        }
-        // res.send('all hail')
-        // sendEmail({email: user.email})
-        try {
-          let resetPasswordToken = randomBytes(10).toString()
-          user.resetToken = resetPasswordToken
-          const message = `Click on link to reset your password ${resetPasswordToken}`
-          sendEmail({
-            email: user.email,
-            subject: 'Password reset link', 
-            message
-          })
-          return res.status(200).json({success: true, message: 'Email Sent'})
-        } catch (error) {
-          console.log(error)
-          return res.status(400).json({message: error})
-        }
+// export const forgotPassword = (req: Request, res: Response) => {
+//   const { email } = req.body;
+//   let errors = [];
+//   const user = pool.query(
+//     query.checkEmail,
+//     [email],
+//     (error, result: QueryResult) => {
+//       if (error) throw error;
+//       if (result.rows.length > 0) {
+//         const user = result.rows[0];
+//         if (!user) {
+//           errors.push({ message: "No User with email found" });
+//           return res.send("No user with email found ");
+//         }
+//         // res.send('all hail')
+//         // sendEmail({email: user.email})
+//         try {
+//           let resetPasswordToken = randomBytes(10).toString()
+//           user.resetToken = resetPasswordToken
+//           const message = `Click on link to reset your password ${resetPasswordToken}`
+//           sendEmail({
+//             email: user.email,
+//             subject: 'Password reset link', 
+//             message
+//           })
+//           return res.status(200).json({success: true, message: 'Email Sent'})
+//         } catch (error) {
+//           console.log(error)
+//           return res.status(400).json({message: error})
+//         }
 
-      }
-    }
-  );
-};
+//       }
+//     }
+//   );
+// };
 // export const resetPassword = (req: Request, res: Response) => {
 //   let resetPasswordToken = env.PASSWORD_RESET_TOKEN
 //   const {email} = req.body

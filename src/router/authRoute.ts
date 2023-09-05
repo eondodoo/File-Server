@@ -2,7 +2,7 @@ import { Router } from 'express';
 import {
   register,
   // login,
-  forgotPassword,
+  // forgotPassword,
 //   resetPassword,
   logout,
   // refreshToken
@@ -29,7 +29,7 @@ router.post('/login',  passport.authenticate('local',{
 
 })
 router.get('/logout', isNotAuthenticated, logout)
-router.post('/forgotpassword', forgotPassword)
+// router.post('/forgotpassword', forgotPassword)
 
 // router.delete('/refresh_token', refreshToken)
 

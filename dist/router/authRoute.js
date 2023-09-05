@@ -24,6 +24,6 @@ router.post('/login', passport_1.default.authenticate('local', {
 }), (req, res) => {
 });
 router.get('/logout', isAuthenticated_1.isNotAuthenticated, authController_1.logout);
-router.post('/forgotpassword', authController_1.forgotPassword);
+// router.post('/forgotpassword', forgotPassword)
 // router.delete('/refresh_token', refreshToken)
 exports.default = router;
