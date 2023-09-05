@@ -18,7 +18,8 @@ const isNotAuthenticated = (req, res, next) => {
 };
 exports.isNotAuthenticated = isNotAuthenticated;
 const isAdmin = (req, res, next) => {
-    if (req.user == null) {
+    if (req.isAuthenticated()) {
+        const name = req.user;
     }
 };
 exports.isAdmin = isAdmin;

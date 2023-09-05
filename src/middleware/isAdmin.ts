@@ -18,3 +18,9 @@ export const isAdmin = (username: string) => {
     next();
   };
 };
+
+// export const isAdmin =(req: Request, res: Response, next:NextFunction) =>{
+//   if(req.isAuthenticated){
+//     console.log(req.user)
+//   }
+// }

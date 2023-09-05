@@ -25,17 +25,22 @@ const adminLogin = (req, res) => {
                 if (!user) {
                     errors.push({ message: "No User found" });
                 }
+                if (user.role == 'admin') {
+                    res.redirect('admin/dashboard');
+                }
             }
         });
     }
 };
 exports.adminLogin = adminLogin;
 const getAllFiles = (req, res) => {
+    const isAuthenticated = req.isAuthenticated();
+    const excludeNavbar = false;
     db_1.default.query(query_1.default.getAllFiles, (error, result) => {
         if (error)
             throw error;
         if (result.rows.length > 0) {
-            res.json(result.rows);
+            res.render('dashboard', { name: req.user, isAuthenticated, excludeNavbar });
         }
         else {
             res.send("No records found");
@@ -50,6 +55,7 @@ const getFileById = (req, res) => {
             throw error;
         if (result.rows.length > 0) {
             console.log(result.rows);
+            console.log(req.user);
         }
         res.send(`Post detail of ${id}`);
     });
@@ -75,7 +81,9 @@ const addFile = (req, res) => {
 };
 exports.addFile = addFile;
 const add = (req, res) => {
-    res.render("./add_post");
+    const excludeNavbar = false;
+    const isAuthenticated = req.isAuthenticated();
+    res.render("./add_post", { excludeNavbar, name: req.user, isAuthenticated });
 };
 exports.add = add;
 const updateFile = (req, res) => {

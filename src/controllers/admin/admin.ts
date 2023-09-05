@@ -21,27 +21,35 @@ export const adminLogin = (req: Request, res: Response) => {
         if (!user) {
           errors.push({ message: "No User found" });
         }
+        if(user.role == 'admin'){
+          res.redirect('admin/dashboard')
+        }
       }
     });
   }
 };
 
 export const getAllFiles = (req: Request, res: Response) => {
+  const isAuthenticated = req.isAuthenticated()
+  const excludeNavbar = false
   pool.query(query.getAllFiles, (error, result) => {
     if (error) throw error;
     if (result.rows.length > 0) {
-      res.json(result.rows);
+
+      res.render('dashboard',{name: req.user, isAuthenticated, excludeNavbar})
     } else {
       res.send("No records found");
     }
   });
 };
+
 export const getFileById = (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   pool.query(query.getFileById, [id], (error, result) => {
     if (error) throw error;
     if (result.rows.length > 0) {
       console.log(result.rows);
+      console.log(req.user);
     }
     res.send(`Post detail of ${id}`);
   });
@@ -68,8 +76,11 @@ export const addFile = (req: Request, res: Response) => {
     }
   );
 };
+
 export const add = (req: Request, res: Response) => {
-  res.render("./add_post");
+  const excludeNavbar = false
+  const isAuthenticated = req.isAuthenticated()
+  res.render("./add_post", {excludeNavbar, name: req.user, isAuthenticated});
 };
 
 export const updateFile = (req: Request, res: Response) => {

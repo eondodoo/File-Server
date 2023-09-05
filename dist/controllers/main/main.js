@@ -34,7 +34,7 @@ const getFileById = (req, res) => {
             const data = result.rows;
             const isAuthenticated = req.isAuthenticated();
             const excludeNavbar = false;
-            return res.render('detail', { data, isAuthenticated, excludeNavbar });
+            return res.render('detail', { data, name: req.user, isAuthenticated, excludeNavbar });
         }
         // return res.status(201).json(result.rows)
     });

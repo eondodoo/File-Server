@@ -17,6 +17,8 @@ export const isNotAuthenticated=(req: Request, res: Response, next: NextFunction
 }
 
 export const isAdmin=(req: Request, res: Response, next: NextFunction)=>{ 
-    if(req.user== null){
-    } 
+    if(req.isAuthenticated()){
+        const name = req.user
+        
+    }
 }

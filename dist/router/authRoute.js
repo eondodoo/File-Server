@@ -15,7 +15,6 @@ router.get('/register', (req, res) => {
 });
 router.get('/login', (req, res) => {
     const excludeNavbar = true;
-    const isAuthenticated = req.isAuthenticated;
     res.render('login', { excludeNavbar });
 });
 router.post('/login', passport_1.default.authenticate('local', {

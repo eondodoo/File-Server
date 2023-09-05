@@ -7,9 +7,9 @@ exports.logout = exports.resetPassword = exports.forgotPassword = exports.regist
 const db_1 = __importDefault(require("../database/db"));
 const query_1 = __importDefault(require("../database/query"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const node_crypto_1 = __importDefault(require("node:crypto"));
 const env_1 = __importDefault(require("../env"));
 const sendEmail_1 = __importDefault(require("../utils/sendEmail"));
-const node_crypto_1 = __importDefault(require("node:crypto"));
 const register = (req, res) => {
     const { username, email, password, password2 } = req.body;
     let role = req.body.role;
@@ -59,42 +59,21 @@ const register = (req, res) => {
     }
 };
 exports.register = register;
-// export const login = (req: Request, res: Response) => {
+// export const loginAdmin = (req: Request, res: Response) => {
 //   const { email, password } = req.body;
-//   let user;
-//   let errors = [];
-//   if (!email || !password) {
-//     errors.push({ message: "Enter email or password" });
-//   }
-//   if (errors.length > 0) {
-//     res.status(401).send(errors);
-//   } else {
-//     pool.query(query.checkEmail, [email], (error, result) => {
-//       if (error) throw error;
-//       if (result.rows.length > 0) {
-//         user = result.rows[0];
-//         if (!user) {
-//           errors.push({ message: "No User found" });
-//           return res.status(401).json({message: 'No user found'})
+//   pool.query(query.checkEmail, [email], (error, result)=>{
+//     if(error) throw error
+//     if(result.rows.length > 0){
+//       const user = result.rows[0]
+//       bcrypt.compare(user.password, password, (err)=>{
+//         if(err) throw err
+//         if(user.role == 'admin'){
+//           req.session.user = user.email
+//           res.redirect('dashboard')
 //         }
-//         const isMatched = bcrypt.compareSync(password, user.password);
-//         if (!isMatched) {
-//           errors.push({ message: "No User found" });
-//           return res.status(401).json({message: 'Wrong Credentials'})
-//         } 
-//         // if(user.role == 'admin'){
-//         //   let tokens = jwtTokens(user.username, user.email, user.password, user.role);
-//         //   res.cookie("refresh_token", tokens.refreshToken, { httpOnly: true });
-//         // return res.redirect('dashboard');
-//         // }
-//         // let tokens = jwtTokens(user.username, user.email, user.password, user.role);
-//         // res.cookie("refresh_token", tokens.refreshToken, { httpOnly: true });
-//         // return res.redirect('../items');
-//         passport.serializeUser((user, done)=>{
-//         })
-//       }
-//     });
-//   }
+//       })
+//     }
+//   })
 // };
 // export const refreshToken = (req: Request, res: Response) => {
 //   try {

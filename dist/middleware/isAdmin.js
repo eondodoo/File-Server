@@ -25,3 +25,8 @@ const isAdmin = (username) => {
     };
 };
 exports.isAdmin = isAdmin;
+// export const isAdmin =(req: Request, res: Response, next:NextFunction) =>{
+//   if(req.isAuthenticated){
+//     console.log(req.user)
+//   }
+// }

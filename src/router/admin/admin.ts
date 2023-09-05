@@ -1,14 +1,28 @@
 import {Router} from 'express'
 import { addFile, deleteFile, getAllFiles, getFileById, updateFile, add } from '../../controllers/admin/admin'
-import { authenticateToken } from '../../middleware/authorization'
+// import { authenticateToken } from '../../middleware/authorization'
 import { isAdmin } from '../../middleware/isAdmin'
+import passport from 'passport'
 const router = Router()
 
 // router.use(isAdmin('admin'))
 
 
 
-router.get('/',isAdmin('admin'),getAllFiles)
+router.get('/dashboard',isAdmin('admin'),getAllFiles)
+
+router.get('/login', (req, res)=>{
+    const excludeNavbar = true
+    res.render('login', {excludeNavbar})
+  })
+
+router.post('/login',  passport.authenticate('local',{
+    successRedirect: '/dashboard',
+    failureRedirect: '/admin/login',
+    failureFlash: true
+  }), (req, res)=>{
+  
+  })
 router.get('post/:id',isAdmin('admin'),getFileById)
 router.get('/add-post',isAdmin('admin'), add)
 router.post('/add-post', isAdmin('admin'), addFile)
