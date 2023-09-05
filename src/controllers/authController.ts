@@ -3,7 +3,7 @@ import pool from "../database/db";
 import query from "../database/query";
 import { QueryResult } from "pg";
 import bcrypt from "bcrypt";
-import crypto from "node:crypto";
+import {randomBytes} from "node:crypto";
 import env from "../env";
 import sendEmail from "../utils/sendEmail";
 
@@ -110,7 +110,7 @@ export const forgotPassword = (req: Request, res: Response) => {
         // res.send('all hail')
         // sendEmail({email: user.email})
         try {
-          let resetPasswordToken = crypto.randomBytes(10).toString()
+          let resetPasswordToken = randomBytes(10).toString()
           user.resetToken = resetPasswordToken
           const message = `Click on link to reset your password ${resetPasswordToken}`
           sendEmail({
@@ -128,26 +128,26 @@ export const forgotPassword = (req: Request, res: Response) => {
     }
   );
 };
-export const resetPassword = (req: Request, res: Response) => {
-  let resetPasswordToken = env.PASSWORD_RESET_TOKEN
-  const {email} = req.body
-  try {
-    pool.query(query.checkEmail, [email], (error, result)=>{
-      if(error) throw error
-      if(result.rows.length > 0){
-        const user = result.rows[0]
-        if(!user){
-          return res.status(404).json({error: 'No User found'})
-        }
-        user.resetPasswordToken = resetPasswordToken
-      }
-    })
-  } catch (error) {
+// export const resetPassword = (req: Request, res: Response) => {
+//   let resetPasswordToken = env.PASSWORD_RESET_TOKEN
+//   const {email} = req.body
+//   try {
+//     pool.query(query.checkEmail, [email], (error, result)=>{
+//       if(error) throw error
+//       if(result.rows.length > 0){
+//         const user = result.rows[0]
+//         if(!user){
+//           return res.status(404).json({error: 'No User found'})
+//         }
+//         user.resetPasswordToken = resetPasswordToken
+//       }
+//     })
+//   } catch (error) {
     
-  }
+//   }
   
-  res.send("forgot password");
-};
+//   res.send("forgot password");
+// };
 
 export const logout = (req: Request, res: Response, next: NextFunction) => {
   req.logout(function(err){

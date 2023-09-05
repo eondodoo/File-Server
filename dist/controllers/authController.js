@@ -3,12 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.logout = exports.resetPassword = exports.forgotPassword = exports.register = void 0;
+exports.logout = exports.forgotPassword = exports.register = void 0;
 const db_1 = __importDefault(require("../database/db"));
 const query_1 = __importDefault(require("../database/query"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const node_crypto_1 = __importDefault(require("node:crypto"));
-const env_1 = __importDefault(require("../env"));
+const node_crypto_1 = require("node:crypto");
 const sendEmail_1 = __importDefault(require("../utils/sendEmail"));
 const register = (req, res) => {
     const { username, email, password, password2 } = req.body;
@@ -105,7 +104,7 @@ const forgotPassword = (req, res) => {
             // res.send('all hail')
             // sendEmail({email: user.email})
             try {
-                let resetPasswordToken = node_crypto_1.default.randomBytes(10).toString();
+                let resetPasswordToken = (0, node_crypto_1.randomBytes)(10).toString();
                 user.resetToken = resetPasswordToken;
                 const message = `Click on link to reset your password ${resetPasswordToken}`;
                 (0, sendEmail_1.default)({
@@ -123,27 +122,24 @@ const forgotPassword = (req, res) => {
     });
 };
 exports.forgotPassword = forgotPassword;
-const resetPassword = (req, res) => {
-    let resetPasswordToken = env_1.default.PASSWORD_RESET_TOKEN;
-    const { email } = req.body;
-    try {
-        db_1.default.query(query_1.default.checkEmail, [email], (error, result) => {
-            if (error)
-                throw error;
-            if (result.rows.length > 0) {
-                const user = result.rows[0];
-                if (!user) {
-                    return res.status(404).json({ error: 'No User found' });
-                }
-                user.resetPasswordToken = resetPasswordToken;
-            }
-        });
-    }
-    catch (error) {
-    }
-    res.send("forgot password");
-};
-exports.resetPassword = resetPassword;
+// export const resetPassword = (req: Request, res: Response) => {
+//   let resetPasswordToken = env.PASSWORD_RESET_TOKEN
+//   const {email} = req.body
+//   try {
+//     pool.query(query.checkEmail, [email], (error, result)=>{
+//       if(error) throw error
+//       if(result.rows.length > 0){
+//         const user = result.rows[0]
+//         if(!user){
+//           return res.status(404).json({error: 'No User found'})
+//         }
+//         user.resetPasswordToken = resetPasswordToken
+//       }
+//     })
+//   } catch (error) {
+//   }
+//   res.send("forgot password");
+// };
 const logout = (req, res, next) => {
     req.logout(function (err) {
         if (err)
