@@ -27,10 +27,10 @@ const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 const envalid_1 = require("envalid");
 const env = (0, envalid_1.cleanEnv)(process.env, {
-    ACCESS_SECRET_TOKEN: (0, envalid_1.str)(),
-    REFRESH_SECRET_TOKEN: (0, envalid_1.str)(),
-    PASSWORD_RESET_TOKEN: (0, envalid_1.str)(),
-    PASSWORD: (0, envalid_1.str)(),
+    // ACCESS_SECRET_TOKEN: str(),
+    // REFRESH_SECRET_TOKEN: str(),
+    // PASSWORD_RESET_TOKEN: str(),
+    // PASSWORD: str(),
     DB_PASSWORD: (0, envalid_1.str)(),
     DB_NAME: (0, envalid_1.str)(),
     SECRET: (0, envalid_1.str)()
