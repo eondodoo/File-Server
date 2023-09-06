@@ -33,6 +33,7 @@ const env = (0, envalid_1.cleanEnv)(process.env, {
     // PASSWORD: str(),
     DB_PASSWORD: (0, envalid_1.str)(),
     DB_NAME: (0, envalid_1.str)(),
-    SECRET: (0, envalid_1.str)()
+    SECRET: (0, envalid_1.str)(),
+    DB_URL: (0, envalid_1.str)()
 });
 exports.default = env;

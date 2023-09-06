@@ -7,7 +7,7 @@ CREATE TABLE users(
     id SERIAL NOT NULL,
     username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL UNIQUE,
-    role TEXT NOT NULL DEFAULT 'user',
+    role TEXT NOT NULL DEFAULT 'user' CHECK(role IN('admin', 'user')),
     password TEXT NOT NULL
 );
 
@@ -16,6 +16,7 @@ CREATE TABLE items(
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     imgurl TEXT NOT NULL,
+    downloads INTEGER NOT NULL,
     created_on TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
