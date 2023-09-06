@@ -6,7 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = exports.register = void 0;
 const db_1 = __importDefault(require("../database/db"));
 const query_1 = __importDefault(require("../database/query"));
+// import { QueryResult } from "pg";
 const bcrypt_1 = __importDefault(require("bcrypt"));
+// import {randomBytes} from "node:crypto";
+// import env from "../env";
+// import sendEmail from "../utils/sendEmail";
 const register = (req, res) => {
     const { username, email, password, password2 } = req.body;
     let role = req.body.role;
