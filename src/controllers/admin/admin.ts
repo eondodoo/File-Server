@@ -72,7 +72,7 @@ export const addFile = (req: Request, res: Response) => {
     [name, description, category, uploadedFile.name],
     (error, result) => {
       if (error) throw error;
-      res.redirect("/admin");
+      res.redirect("/admin/dashboard");
     }
   );
 };
@@ -80,7 +80,7 @@ export const addFile = (req: Request, res: Response) => {
 export const add = (req: Request, res: Response) => {
   const excludeNavbar = false
   const isAuthenticated = req.isAuthenticated()
-  res.render("./add_post", {excludeNavbar, name: req.user, isAuthenticated});
+  res.render("add_post", {excludeNavbar, name: req.user, isAuthenticated});
 };
 
 export const updateFile = (req: Request, res: Response) => {

@@ -37,5 +37,5 @@ WHERE id = 1;
 
 SELECT * FROM items WHERE name ILIKE '%admission%';
 
-INSERT INTO items (name, description, imgurl)
-VALUES ('Admission', 'Admision forms for tertiary school', 'appointmentletter.pdf');
+INSERT INTO items (name, description, imgurl, downloads)
+VALUES ('Admission', 'Admision forms for all universities around the world', 'appointmentletter.pdf', 0);

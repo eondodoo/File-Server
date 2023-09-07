@@ -18,8 +18,33 @@ const isNotAuthenticated = (req, res, next) => {
 };
 exports.isNotAuthenticated = isNotAuthenticated;
 const isAdmin = (req, res, next) => {
-    if (req.isAuthenticated()) {
-        const name = req.user;
+    // if(req.isAuthenticated()){
+    //     const username = 'admin'
+    //     pool.query(query.checkUsername, [username], (error, result) => {
+    //         if (error) throw error;
+    //         if (result.rows.length > 0) {
+    //           const user = result.rows[0];
+    //           if (user.role == "admin") {
+    //             console.log('reached')
+    //             // return res.send('reached')
+    //           } else {
+    //             return res.status(403).json({ message: "Access Denied" });
+    //           }
+    //         }
+    //       });
+    //       next();
+    // }
+    if (!req.isAuthenticated()) {
+        return res.redirect('/admin/login');
+    }
+    else {
+        const authUser = req.user;
+        if (authUser.role == 'admin') {
+            next();
+        }
+        else {
+            res.send('You are not authroized');
+        }
     }
 };
 exports.isAdmin = isAdmin;

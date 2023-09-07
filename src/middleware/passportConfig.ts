@@ -2,6 +2,7 @@ import LocalStrategy from "passport-local";
 import pool from "../database/db";
 import query from "../database/query";
 import bcrypt from "bcrypt";
+import { User } from "../types/custom";
 
 export const initializePassport = (passport: any) => {
   const authenticateUser = (email: string, password: string, done: any) => {
@@ -31,11 +32,11 @@ export const initializePassport = (passport: any) => {
     )
   );
 
-  passport.serializeUser((user: any, done: any) => {
+  passport.serializeUser((user: User, done: any) => {
     done(null, user.id);
   });
 
-  passport.deserializeUser((id: any, done: any) => {
+  passport.deserializeUser((id: User['id'], done: any) => {
     pool.query(query.getUserByID, [id], (error, result) => {
       if (error) throw error;
       if (result.rows.length > 0) {

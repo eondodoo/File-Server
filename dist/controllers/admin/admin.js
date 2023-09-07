@@ -76,14 +76,14 @@ const addFile = (req, res) => {
     db_1.default.query(query_1.default.addFile, [name, description, category, uploadedFile.name], (error, result) => {
         if (error)
             throw error;
-        res.redirect("/admin");
+        res.redirect("/admin/dashboard");
     });
 };
 exports.addFile = addFile;
 const add = (req, res) => {
     const excludeNavbar = false;
     const isAuthenticated = req.isAuthenticated();
-    res.render("./add_post", { excludeNavbar, name: req.user, isAuthenticated });
+    res.render("add_post", { excludeNavbar, name: req.user, isAuthenticated });
 };
 exports.add = add;
 const updateFile = (req, res) => {

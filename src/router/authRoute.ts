@@ -8,7 +8,7 @@ import {
   // refreshToken
 } from '../controllers/authController';
 import passport from 'passport';
-import { isAuthenticated, isNotAuthenticated } from '../middleware/isAuthenticated';
+import { isAuthenticated, isNotAuthenticated, isAdmin } from '../middleware/isAuthenticated';
 const router = Router();
 
 router.post('/register',isAuthenticated, register)
