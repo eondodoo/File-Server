@@ -95,7 +95,7 @@ const sendFile = (req, res) => {
             const fileName = result.rows[0].imgurl;
             const filePath = "./public" + "/uploads/" + fileName;
             if ((0, fs_1.existsSync)(filePath)) {
-                (0, sendMail_1.sendMail)(fileName, 'tukinettechnology@gmail.com');
+                (0, sendMail_1.sendMail)(fileName, authUser.email);
             }
             else {
                 res.send("No file found");

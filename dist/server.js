@@ -58,6 +58,15 @@ app.use(session({
 app.use(passport_1.default.session());
 app.use(passport_1.default.initialize());
 // ROutes
+app.get('', (req, res) => {
+    const isAuthenticated = req.isAuthenticated();
+    const excludeNavbar = false;
+    return res.render("welcome", {
+        name: req.user,
+        isAuthenticated,
+        excludeNavbar,
+    });
+});
 app.use('/items', main_1.default);
 app.use('/admin', admin_1.default);
 app.use('/users', authRoute_1.default);

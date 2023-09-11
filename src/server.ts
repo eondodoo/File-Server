@@ -36,7 +36,13 @@ app.use(passport.initialize())
 
 // ROutes
 app.get('', (req, res)=>{
-    res.render('welcome')
+    const isAuthenticated = req.isAuthenticated();
+    const excludeNavbar = false;
+    return res.render("welcome", {
+      name: req.user,
+      isAuthenticated,
+      excludeNavbar,
+    });
 })
 app.use('/items', mainRoutes)
 app.use('/admin', adminRoutes)

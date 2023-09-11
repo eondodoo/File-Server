@@ -22,19 +22,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendMail = void 0;
 const nodemailer = __importStar(require("nodemailer"));
+const env_1 = __importDefault(require("../env"));
 const sendMail = (file, email) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: 'weavemajor@gmail.com',
-            pass: "hddb ocfm ekqv dmnt",
+            user: env_1.default.EMAIL,
+            pass: env_1.default.PASSWORD,
         },
     });
     const mailOptions = {
-        from: 'weavemajor@gmail.com',
+        from: env_1.default.EMAIL,
         to: email,
         subject: "your file is ready",
         text: "hello",
