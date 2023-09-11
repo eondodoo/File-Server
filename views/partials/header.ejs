@@ -30,15 +30,16 @@
       <a class="mr-5 hover:text-white" href="/items">All Items</a>
       <a class="mr-5 hover:text-white" href="/admin/add-post">Add Item</a>
       <a class="mr-5 hover:text-white" href="">All Users</a>
-
+      <% } else { %>
+      <a class="mr-5 hover:text-white" href="/items">Home</a>
+      <a class="mr-5 hover:text-white">About</a>
+      <a class="mr-5 hover:text-white">Contact</a>
       <% } %>
     </nav>
     <% } else { %>
     <nav
       class="md:ml-auto flex flex-wrap items-center text-base justify-center"
     >
-      <!-- <a class="mr-5 hover:text-white" href="/">Welcome </a> -->
-
       <a class="mr-5 hover:text-white" href="/items">Home</a>
       <a class="mr-5 hover:text-white">About</a>
       <a class="mr-5 hover:text-white">Contact</a>
