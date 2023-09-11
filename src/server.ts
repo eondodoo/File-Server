@@ -35,6 +35,9 @@ app.use(passport.initialize())
 
 
 // ROutes
+app.get('', (req, res)=>{
+    res.render('welcome')
+})
 app.use('/items', mainRoutes)
 app.use('/admin', adminRoutes)
 app.use('/users', authRoutes)
