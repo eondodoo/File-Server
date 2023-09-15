@@ -1,11 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import pool from "../database/db";
 import query from "../database/query";
-// import { QueryResult } from "pg";
 import bcrypt from "bcrypt";
-// import {randomBytes} from "node:crypto";
-// import env from "../env";
-// import sendEmail from "../utils/sendEmail";
 
 
 

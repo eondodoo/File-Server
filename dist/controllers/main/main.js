@@ -71,13 +71,19 @@ const downloadFile = (req, res) => {
 };
 exports.downloadFile = downloadFile;
 const searchFiles = (req, res) => {
-    const { term } = req.query;
-    db_1.default.query(query_1.default.searchFiles, [`%${term}%`], (error, result) => {
+    const { term } = req.body;
+    db_1.default.query(query_1.default.search, [`%${term}%`], (error, result) => {
         if (error)
             throw error;
+        // res.send(result.rows)
         if (result.rows.length > 0) {
-            const searchResults = result.rows;
-            res.send(searchResults);
+            const data = result.rows;
+            const isAuthenticated = req.isAuthenticated();
+            const excludeNavbar = false;
+            res.render('search_result', { data,
+                name: req.user,
+                isAuthenticated,
+                excludeNavbar, });
         }
         else {
             res.status(404).json({ message: "No file to match search" });

@@ -65,12 +65,18 @@ export const downloadFile = (req: Request, res: Response) => {
 };
 
 export const searchFiles = (req: Request, res: Response) => {
-  const { term } = req.query;
-  pool.query(query.searchFiles, [`%${term}%`], (error, result) => {
-    if (error) throw error;
+  const { term } = req.body;
+  pool.query(query.search, [`%${term}%`], (error, result) => {
+    if (error) throw error; 
+    // res.send(result.rows)
     if (result.rows.length > 0) {
-      const searchResults = result.rows;
-      res.send(searchResults);
+      const data = result.rows;
+      const isAuthenticated = req.isAuthenticated();
+      const excludeNavbar = false;
+      res.render('search_result', {data,
+        name: req.user,
+        isAuthenticated,
+        excludeNavbar,})
     } else {
       res.status(404).json({ message: "No file to match search" });
     }
@@ -80,7 +86,7 @@ export const searchFiles = (req: Request, res: Response) => {
 export const sendFile = (req: Request, res: Response) => {
   const id = req.params.id;
   const authUser = req.user as User;
-  pool.query(query.getFileById, [id], (error, result) => {
+  pool.query(query.getFileById, [id], (error, result) => { 
     if (error) throw error;
     if (result.rows.length > 0) {
       const fileName = result.rows[0].imgurl;

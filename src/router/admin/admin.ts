@@ -1,6 +1,5 @@
 import {Router} from 'express'
 import { addFile, deleteFile, getAllFiles, getFileById, updateFile, add } from '../../controllers/admin/admin'
-// import { authenticateToken } from '../../middleware/authorization'
 import { isAdmin } from '../../middleware/isAuthenticated'
 import passport from 'passport'
 const router = Router()
@@ -13,7 +12,7 @@ router.get('/dashboard',isAdmin,getAllFiles)
 
 router.get('/login', (req, res)=>{
     const excludeNavbar = true
-    res.render('login', {excludeNavbar})
+    res.render('login', {excludeNavbar}) 
   })
 
 router.post('/login',  passport.authenticate('local',{
