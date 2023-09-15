@@ -66,14 +66,14 @@ const addFile = (req, res) => {
         return res.status(400).send("No files were uploaded");
     }
     const { name, description, category } = req.body;
+    const downloads = 0;
     let uploadedFile = req.files.file;
     let filePath = "./public" + "/uploads/" + uploadedFile.name;
     uploadedFile.mv(filePath, (error) => {
         if (error)
             return res.status(400).send(error);
-        res.send("File uploaded");
     });
-    db_1.default.query(query_1.default.addFile, [name, description, category, uploadedFile.name], (error, result) => {
+    db_1.default.query(query_1.default.addFile, [name, description, category, uploadedFile.name, downloads], (error, result) => {
         if (error)
             throw error;
         res.redirect("/admin/dashboard");

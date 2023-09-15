@@ -5,9 +5,10 @@ const router = Router()
 
 
 router.get('',  getAllFiles)
+router.get('/search', searchFiles) 
 router.get('/:id', getFileById)
 router.get('/:id/download', isNotAuthenticated, downloadFile)
 router.get('/:id/send', isNotAuthenticated, sendFile)
-router.post('/search', searchFiles)
+ 
 
 export default router 

@@ -32,6 +32,12 @@ SET downloads = 0 WHERE id = 1;
 ALTER TABLE items
 ALTER COLUMN downloads SET NOT NULL;
 
+UPDATE items
+SET category = 'school' WHERE id = 1;
+
+ALTER TABLE items
+ADD COLUMN category text;
+
 DELETE FROM users
 WHERE id = 1;
 

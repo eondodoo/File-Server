@@ -60,16 +60,16 @@ export const addFile = (req: Request, res: Response) => {
     return res.status(400).send("No files were uploaded");
   }
   const { name, description, category } = req.body;
+  const downloads = 0
   let uploadedFile = req.files.file as UploadedFile;
   let filePath = "./public" + "/uploads/" + uploadedFile.name;
 
   uploadedFile.mv(filePath, (error) => {
     if (error) return res.status(400).send(error);
-    res.send("File uploaded");
-  });
+  }); 
   pool.query(
     query.addFile,
-    [name, description, category, uploadedFile.name],
+    [name, description, category, uploadedFile.name, downloads],
     (error, result) => {
       if (error) throw error;
       res.redirect("/admin/dashboard");

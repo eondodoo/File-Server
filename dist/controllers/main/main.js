@@ -58,7 +58,7 @@ const downloadFile = (req, res) => {
             throw error;
         if (result.rows.length > 0) {
             const fileName = result.rows[0].imgurl;
-            const filePath = "./public" + "/uploads/" + fileName.name;
+            const filePath = "./public" + "/uploads/" + fileName;
             if ((0, fs_1.existsSync)(filePath)) {
                 res.download(filePath, fileName);
                 (0, downloadCount_1.download)(id);
@@ -71,8 +71,8 @@ const downloadFile = (req, res) => {
 };
 exports.downloadFile = downloadFile;
 const searchFiles = (req, res) => {
-    const { term } = req.body;
-    db_1.default.query(query_1.default.search, [`%${term}%`], (error, result) => {
+    const { search } = req.query;
+    db_1.default.query(query_1.default.search, [`%${search}%`], (error, result) => {
         if (error)
             throw error;
         // res.send(result.rows)
