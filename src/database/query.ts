@@ -13,7 +13,9 @@ const checkUsername = 'SELECT * FROM users WHERE username = $1';
 const addUser = 'INSERT INTO users (username, email, password, role) VALUES($1,$2,$3,$4) RETURNING *';
 const getUserByID = 'SELECT * FROM users WHERE id = $1'
 
- 
+const totalUsers = 'SELECT * FROM users WHERE role = $1 '
+const totalDownloads = 'SELECT SUM(downloads) FROM items'
+const totalFiles = 'SELECT COUNT(*) FROM items'
 
 export default {
     getAllFiles,
@@ -26,5 +28,8 @@ export default {
     deleteFile,
     search,
     downloadCount,
-    getUserByID
+    getUserByID,
+    totalUsers,
+    totalDownloads,
+    totalFiles
 }

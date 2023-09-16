@@ -35,8 +35,8 @@ export const getAllFiles = (req: Request, res: Response) => {
   pool.query(query.getAllFiles, (error, result) => {
     if (error) throw error;
     if (result.rows.length > 0) {
-
-      res.render('dashboard',{name: req.user, isAuthenticated, excludeNavbar})
+      const data = result.rows
+      res.render('admin_home',{data, name: req.user, isAuthenticated, excludeNavbar})
     } else {
       res.send("No records found");
     }
@@ -45,13 +45,15 @@ export const getAllFiles = (req: Request, res: Response) => {
 
 export const getFileById = (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
+  const isAuthenticated = req.isAuthenticated()
+  const excludeNavbar = false
   pool.query(query.getFileById, [id], (error, result) => {
     if (error) throw error;
     if (result.rows.length > 0) {
-      console.log(result.rows);
-      console.log(req.user);
+      const data = result.rows
+      res.render('admin_detail', {data, name: req.user, isAuthenticated, excludeNavbar})
     }
-    res.send(`Post detail of ${id}`);
+   ;
   });
 };
 
@@ -82,9 +84,22 @@ export const add = (req: Request, res: Response) => {
   const isAuthenticated = req.isAuthenticated()
   res.render("add_post", {excludeNavbar, name: req.user, isAuthenticated});
 };
+export const update = (req: Request, res: Response) => {
+  const id = req.params.id;
+  const excludeNavbar = false
+  const isAuthenticated = req.isAuthenticated()
+  pool.query(query.getFileById, [id], (error, result)=>{
+    if(error) throw error
+    if(result.rows.length > 0){
+      const data = result.rows
+      res.render("update_post", {data, excludeNavbar, name: req.user, isAuthenticated});
+    }
+  })
+};
 
 export const updateFile = (req: Request, res: Response) => {
   const id = req.params.id;
+
   if (!req.files || !req.files.file) {
     return res.status(400).send("No files were uploaded");
   }
@@ -94,8 +109,8 @@ export const updateFile = (req: Request, res: Response) => {
 
   uploadedFile.mv(filePath, (error) => {
     if (error) return res.status(400).send(error);
-    res.send("File uploaded");
   });
+
   pool.query(
     query.updateFile,
     [name, description, category, uploadedFile.name, id],

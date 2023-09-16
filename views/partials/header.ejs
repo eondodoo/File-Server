@@ -17,19 +17,19 @@
           d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"
         ></path>
       </svg>
-      <span class="ml-3 text-xl">Tailblocks</span>
+      <span class="ml-3 text-xl">File Server</span>
     </a>
     <nav
       class="md:ml-auto flex flex-wrap items-center text-base justify-center"
     >
       <% if (isAuthenticated) { %>
-      <a class="mr-5 hover:text-white" href="/"
+      <a class="mr-5 hover:text-white" href="/admin/dashboard"
         >Welcome <%= name.username %>
       </a>
       <% if (name.role == 'admin') { %>
-      <a class="mr-5 hover:text-white" href="/items">All Items</a>
+      <a class="mr-5 hover:text-white" href="/admin/posts">All Items</a>
       <a class="mr-5 hover:text-white" href="/admin/add-post">Add Item</a>
-      <a class="mr-5 hover:text-white" href="">All Users</a>
+      <a class="mr-5 hover:text-white" href="#">All Users</a>
       <% } else { %>
       <a class="mr-5 hover:text-white" href="/items">Home</a>
       <a class="mr-5 hover:text-white">About</a>
