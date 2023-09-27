@@ -1,0 +1,12 @@
+POST http://localhost:5000/items/login
+Content-Type: application/json
+
+
+{
+    "email": "cooper@email.com",
+    "password": "123456"
+}
+
+###
+GET http://localhost:5000/items
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkNvb3BlciIsImVtYWlsIjoiY29vcGVyQGVtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJE1GblVJU3dGaWZTVFhyUjU1VlEyNS5UMEN1LjhWWDNGRENURVdCZUF5Z0lRUHdGeVdBYXltIiwiaWF0IjoxNjkyNzk2NTMwLCJleHAiOjE2OTI3OTY1NjB9.5kqYv3zqCVQ31qbrWBmO402R3Zeskwkz4us51ztGal0
