@@ -120,6 +120,7 @@ export const sendFile = (req: Request, res: Response) => {
       const filePath = "./public" + "/uploads/" + fileName;
       if (existsSync(filePath)) {
         sendMail(fileName, emailList);
+        res.redirect('/items')
       } else {
         res.send("No file found");
       }
