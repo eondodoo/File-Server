@@ -16,6 +16,7 @@ router.get('/register', (req, res)=>{
   const excludeNavbar = true
   res.render('register', {excludeNavbar})
 })
+
 router.get('/login', (req, res)=>{
   const excludeNavbar = true
   res.render('login', {excludeNavbar})

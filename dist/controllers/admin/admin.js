@@ -126,7 +126,8 @@ const deleteFile = (req, res) => {
     db_1.default.query(query_1.default.deleteFile, [id], (error, result) => {
         if (error)
             throw error;
+        // res.status(200).send('File deleted successfully')
+        res.redirect("dashboard");
     });
-    res.redirect("dashboard");
 };
 exports.deleteFile = deleteFile;
