@@ -124,6 +124,7 @@ export const deleteFile = (req: Request, res: Response) => {
   const id = req.params.id;
   pool.query(query.deleteFile, [id], (error, result) => {
     if (error) throw error;
+    // res.status(200).send('File deleted successfully')
+    res.redirect("dashboard");
   });
-  res.redirect("dashboard");
 };

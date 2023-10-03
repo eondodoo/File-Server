@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendFile = exports.searchFiles = exports.downloadFile = exports.getFileById = exports.getAllFiles = void 0;
+exports.sendFile = exports.send = exports.searchFiles = exports.downloadFile = exports.getFileById = exports.getAllFiles = void 0;
 const db_1 = __importDefault(require("../../database/db"));
 const query_1 = __importDefault(require("../../database/query"));
 const fs_1 = require("fs");
-const downloadCount_1 = require("../../middleware/downloadCount");
-const sendMail_1 = require("../../middleware/sendMail");
+const downloadCount_1 = require("../../utils/downloadCount");
+const sendMail_1 = require("../../utils/sendMail");
 const getAllFiles = (req, res) => {
     db_1.default.query(query_1.default.getAllFiles, (error, result) => {
         if (error)
@@ -91,9 +91,32 @@ const searchFiles = (req, res) => {
     });
 };
 exports.searchFiles = searchFiles;
+// export const sendFile = (req: Request, res: Response) => {
+//   const id = req.params.id;
+//   const authUser = req.user as User;
+//   pool.query(query.getFileById, [id], (error, result) => { 
+//     if (error) throw error;
+//     if (result.rows.length > 0) {
+//       const fileName = result.rows[0].imgurl;
+//       const filePath = "./public" + "/uploads/" + fileName;
+//       if (existsSync(filePath)) {
+//         sendMail(fileName, authUser.email);
+//       } else {
+//         res.send("No file found");
+//       }
+//     }
+//   });
+// };
+const send = (req, res) => {
+    const excludeNavbar = false;
+    const isAuthenticated = req.isAuthenticated();
+    res.render('send_email', { excludeNavbar, name: req.user, isAuthenticated });
+};
+exports.send = send;
 const sendFile = (req, res) => {
+    const { emails } = req.body;
+    const emailList = emails.split(',');
     const id = req.params.id;
-    const authUser = req.user;
     db_1.default.query(query_1.default.getFileById, [id], (error, result) => {
         if (error)
             throw error;
@@ -101,7 +124,7 @@ const sendFile = (req, res) => {
             const fileName = result.rows[0].imgurl;
             const filePath = "./public" + "/uploads/" + fileName;
             if ((0, fs_1.existsSync)(filePath)) {
-                (0, sendMail_1.sendMail)(fileName, authUser.email);
+                (0, sendMail_1.sendMail)(fileName, emailList);
             }
             else {
                 res.send("No file found");

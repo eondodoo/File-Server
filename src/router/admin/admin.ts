@@ -49,6 +49,7 @@ router.get('/add-post',isAdmin, add)
 router.post('/add-post', isAdmin, addFile)
 router.put('/update-post/:id', isAdmin,  updateFile )
 router.get('/update-post/:id', isAdmin, update)
+
 router.delete('/delete-post/:id', isAdmin, deleteFile)
 
 

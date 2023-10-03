@@ -2,10 +2,8 @@ import { Request, Response } from "express";
 import pool from "../../database/db";
 import query from "../../database/query";
 import { existsSync } from "fs";
-import { download } from "../../middleware/downloadCount";
-import sendEmail from "../../utils/sendEmail";
-import { sendMail } from "../../middleware/sendMail";
-import { User } from "../../types/custom";
+import { download } from "../../utils/downloadCount";
+import { sendMail } from "../../utils/sendMail";
 
 export const getAllFiles = (req: Request, res: Response) => {
   pool.query(query.getAllFiles, (error, result) => {
@@ -82,17 +80,46 @@ export const searchFiles = (req: Request, res: Response) => {
     }
   });
 };
+
+
  
+// export const sendFile = (req: Request, res: Response) => {
+  
+//   const id = req.params.id;
+//   const authUser = req.user as User;
+//   pool.query(query.getFileById, [id], (error, result) => { 
+//     if (error) throw error;
+//     if (result.rows.length > 0) {
+//       const fileName = result.rows[0].imgurl;
+//       const filePath = "./public" + "/uploads/" + fileName;
+//       if (existsSync(filePath)) {
+//         sendMail(fileName, authUser.email);
+//       } else {
+//         res.send("No file found");
+//       }
+//     }
+//   });
+// };
+
+
+export const send = (req: Request, res: Response) => {
+  const excludeNavbar = false
+  const isAuthenticated = req.isAuthenticated()
+  res.render('send_email', {excludeNavbar, name: req.user, isAuthenticated})
+}
+
 export const sendFile = (req: Request, res: Response) => {
+  const {emails} = req.body
+  const emailList = emails.split(',')
+
   const id = req.params.id;
-  const authUser = req.user as User;
   pool.query(query.getFileById, [id], (error, result) => { 
     if (error) throw error;
     if (result.rows.length > 0) {
       const fileName = result.rows[0].imgurl;
       const filePath = "./public" + "/uploads/" + fileName;
       if (existsSync(filePath)) {
-        sendMail(fileName, authUser.email);
+        sendMail(fileName, emailList);
       } else {
         res.send("No file found");
       }
