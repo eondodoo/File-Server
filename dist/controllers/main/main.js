@@ -125,6 +125,7 @@ const sendFile = (req, res) => {
             const filePath = "./public" + "/uploads/" + fileName;
             if ((0, fs_1.existsSync)(filePath)) {
                 (0, sendMail_1.sendMail)(fileName, emailList);
+                res.redirect('/items');
             }
             else {
                 res.send("No file found");
